@@ -42,13 +42,7 @@ class ApplicationModule(val application: Application) {
     }
 
     @Provides
-    fun providesCardsRepository(cardsService: CardsService, dispatcherProvider: DispatcherProvider): CardsRepository {
-        return CardsRepositoryImpl(cardsService, dispatcherProvider)
-    }
-
-    @Provides
-    @Singleton
-    fun providesDispatcherProvider(): DispatcherProvider {
-        return DefaultDispatcherProvider()
+    fun providesCardsRepository(cardsService: CardsService): CardsRepository {
+        return CardsRepositoryImpl(cardsService)
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context
 import com.seank.kotlinflowplayground.data.CardsRepository
 import com.seank.kotlinflowplayground.data.CardsRepositoryImpl
 import com.seank.kotlinflowplayground.data.CardsService
+import com.seank.kotlinflowplayground.flow.DefaultDispatcherProvider
+import com.seank.kotlinflowplayground.flow.DispatcherProvider
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -40,7 +42,13 @@ class ApplicationModule(val application: Application) {
     }
 
     @Provides
-    fun providesCardsRepository(cardsService: CardsService): CardsRepository {
-        return CardsRepositoryImpl(cardsService)
+    fun providesCardsRepository(cardsService: CardsService, dispatcherProvider: DispatcherProvider): CardsRepository {
+        return CardsRepositoryImpl(cardsService, dispatcherProvider)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDispatcherProvider(): DispatcherProvider {
+        return DefaultDispatcherProvider()
     }
 }

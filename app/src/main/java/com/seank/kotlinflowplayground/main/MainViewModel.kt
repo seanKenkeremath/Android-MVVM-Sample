@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: CardsRepository) : ViewModel() {
 
-    private val _firstCard = MutableLiveData<Card>()
-    val firstCard: LiveData<Card> get() = _firstCard
+    private val _cards = MutableLiveData<List<Card>>()
+    val cards: LiveData<List<Card>> get() = _cards
 
     private val _showContent = MutableLiveData<Boolean>()
     val showContent: LiveData<Boolean> get() = _showContent
@@ -32,7 +32,6 @@ class MainViewModel(private val repository: CardsRepository) : ViewModel() {
         viewModelScope.launch {
             repository.getCards()
                 .onStart {
-                    delay(3000)
                     _showContent.value = false
                     _showLoading.value = true
                     _error.value = null
@@ -46,7 +45,7 @@ class MainViewModel(private val repository: CardsRepository) : ViewModel() {
                     _showContent.value = true
                     _showLoading.value = false
                     _error.value = null
-                    _firstCard.value = it[0]
+                    _cards.value = it
                 }
         }
     }

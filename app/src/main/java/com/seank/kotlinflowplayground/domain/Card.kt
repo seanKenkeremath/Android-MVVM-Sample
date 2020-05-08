@@ -6,5 +6,8 @@ data class Card(
     val name: String,
     val imgUrl: String
 ) {
-    constructor(apiCard: ApiCard) : this(apiCard.name, apiCard.imageUrl)
+    constructor(apiCard: ApiCard) : this(
+        apiCard.name ?: "",
+        apiCard.imageUrl ?: ""
+    )
 }

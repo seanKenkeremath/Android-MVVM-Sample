@@ -12,7 +12,7 @@ class CardsRepositoryImpl(private val cardsService: CardsService) : CardsReposit
     @ExperimentalCoroutinesApi
     override fun getCards(): Flow<List<Card>> {
         return flow {
-            emit(cardsService.getCards().apiCards)
+            emit(cardsService.getCards("LEA").apiCards)
         }.map {
             val domainCardsList = mutableListOf<Card>()
             for (apiCard in it) {

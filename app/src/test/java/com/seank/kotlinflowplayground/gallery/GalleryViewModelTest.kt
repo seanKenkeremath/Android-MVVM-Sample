@@ -1,4 +1,4 @@
-package com.seank.kotlinflowplayground.main
+package com.seank.kotlinflowplayground.gallery
 
 import CoroutineTestRule
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -14,7 +14,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations.initMocks
 
-class MainViewModelTest {
+class GalleryViewModelTest {
     @get:Rule
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -30,7 +30,7 @@ class MainViewModelTest {
     @Mock
     private lateinit var showContentObserver: Observer<Boolean>
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: GalleryViewModel
 
     @Before
     fun setUp() {
@@ -38,7 +38,7 @@ class MainViewModelTest {
         `when`(cardsRepository.getCards()).thenReturn(flow {
             emit(listOf(Card(name = "Test Card", imgUrl = "img_url")))
         })
-        viewModel = MainViewModel(cardsRepository)
+        viewModel = GalleryViewModel(cardsRepository)
         viewModel.cards.observeForever(cardsObserver)
         viewModel.showContent.observeForever(showContentObserver)
     }

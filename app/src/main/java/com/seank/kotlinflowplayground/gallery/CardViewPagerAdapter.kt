@@ -1,4 +1,4 @@
-package com.seank.kotlinflowplayground.main
+package com.seank.kotlinflowplayground.gallery
 
 import android.view.LayoutInflater
 import android.view.View

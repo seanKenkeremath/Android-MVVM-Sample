@@ -1,4 +1,4 @@
-package com.seank.kotlinflowplayground.main
+package com.seank.kotlinflowplayground.gallery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: CardsRepository) : ViewModel() {
+class GalleryViewModel(private val repository: CardsRepository) : ViewModel() {
 
     private val _cards = MutableLiveData<List<Card>>()
     val cards: LiveData<List<Card>> get() = _cards

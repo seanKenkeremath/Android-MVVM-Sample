@@ -1,4 +1,4 @@
-package com.seank.kotlinflowplayground.main
+package com.seank.kotlinflowplayground.gallery
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,12 +11,12 @@ import com.seank.kotlinflowplayground.R
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class GalleryActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModelFactory : MainViewModelFactory
+    lateinit var viewModelFactory : GalleryViewModelFactory
 
-    private lateinit var viewModel : MainViewModel
+    private lateinit var viewModel : GalleryViewModel
 
     private lateinit var viewPager: ViewPager
     private lateinit var loadingView : View
@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_gallery)
         viewPager = findViewById(R.id.viewpager)
         loadingView = findViewById(R.id.loading)
         errorView = findViewById(R.id.error)
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GalleryViewModel::class.java)
 
         viewModel.cards.observe(this, Observer {
             viewPager.adapter = CardViewPagerAdapter(it)

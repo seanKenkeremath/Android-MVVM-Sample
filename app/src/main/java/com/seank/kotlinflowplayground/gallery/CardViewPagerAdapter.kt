@@ -18,7 +18,7 @@ class CardViewPagerAdapter(private val cardList: List<Card>) : PagerAdapter() {
             LayoutInflater.from(container.context).inflate(R.layout.item_card, container, false)
         val cardImage: ImageView = view.findViewById(R.id.card_image)
         val cardName: TextView = view.findViewById(R.id.card_name)
-        Glide.with(cardImage).load(cardList[position].imgUrl).into(cardImage)
+        Glide.with(cardImage).load(cardList[position].imgUrl).centerCrop().into(cardImage)
         cardName.text = cardList[position].name
         container.addView(view)
         return view

@@ -10,12 +10,10 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [FlavorizedApplicationModule::class])
 class ApplicationModule(val application: Application) {
 
     @Provides
@@ -34,18 +32,12 @@ class ApplicationModule(val application: Application) {
 
     @Provides
     @Singleton
-    fun providesCardsService(moshi: Moshi) : CardsService {
-        val okHttpClient = OkHttpClient
+    fun providesOkHttpClient() : OkHttpClient {
+        return OkHttpClient
             .Builder()
             .readTimeout(60L, TimeUnit.SECONDS)
             .connectTimeout(60L, TimeUnit.SECONDS)
             .build()
-
-        return Retrofit.Builder()
-            .baseUrl("https://api.magicthegathering.io")
-            .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build().create(CardsService::class.java)
     }
 
     @Provides

@@ -24,6 +24,10 @@ android {
         }
     }
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     flavorDimensions "environment"
     productFlavors {
         mock {

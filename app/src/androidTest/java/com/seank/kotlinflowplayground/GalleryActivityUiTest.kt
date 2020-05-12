@@ -14,6 +14,7 @@ import com.seank.kotlinflowplayground.util.test.idlingresource.ViewPagerIdlingRe
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,6 +33,14 @@ class GalleryActivityUiTest {
             //Register idling resource to wait for swipe animations
             ViewPagerIdlingResource(activityTestRule.activity.findViewById(R.id.viewpager) as ViewPager),
             //Idling resource for background tasks
+            BackgroundTaskIdlingResource.idlingResource
+        )
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(
+            ViewPagerIdlingResource(activityTestRule.activity.findViewById(R.id.viewpager) as ViewPager),
             BackgroundTaskIdlingResource.idlingResource
         )
     }

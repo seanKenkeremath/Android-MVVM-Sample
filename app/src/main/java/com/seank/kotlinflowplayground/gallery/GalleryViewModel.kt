@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.seank.kotlinflowplayground.data.CardsRepository
 import com.seank.kotlinflowplayground.domain.Card
+import com.seank.kotlinflowplayground.util.test.idlingresource.BackgroundTaskIdlingResource
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
@@ -26,6 +28,7 @@ class GalleryViewModel(private val repository: CardsRepository) : ViewModel() {
     val error: LiveData<String?> get() = _error
 
     fun fetchCard() {
+        BackgroundTaskIdlingResource.taskStarted()
         viewModelScope.launch {
             repository.getCards()
                 .onStart {
@@ -37,6 +40,9 @@ class GalleryViewModel(private val repository: CardsRepository) : ViewModel() {
                     _showContent.value = false
                     _showLoading.value = false
                     _error.value = exception.message
+                }
+                .onCompletion {
+                    BackgroundTaskIdlingResource.taskEnded()
                 }
                 .collect {
                     _showContent.value = true

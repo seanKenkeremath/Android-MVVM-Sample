@@ -1,4 +1,4 @@
-package com.seank.kotlinflowplayground.idlingresource;
+package com.seank.kotlinflowplayground.util.test.idlingresource;
 
 import androidx.test.espresso.IdlingResource;
 import androidx.viewpager.widget.ViewPager;
@@ -13,13 +13,16 @@ public class ViewPagerIdlingResource implements IdlingResource {
     private boolean idle = true;
 
     private ResourceCallback resourceCallback;
+    // The name must be unique across the IR registry (e.g. multiple view pagers)
+    private String resourceName;
 
     public ViewPagerIdlingResource(ViewPager viewPager) {
         viewPager.addOnPageChangeListener(new ViewPagerListener());
+        resourceName = "View Pager Idling Resource for " + viewPager.toString();
     }
 
     @Override public String getName() {
-        return "View Pager Idling Resource";
+        return resourceName;
     }
 
     @Override public boolean isIdleNow() {

@@ -1,9 +1,9 @@
 package com.seank.kotlinflowplayground.gallery
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
@@ -14,13 +14,13 @@ import javax.inject.Inject
 class GalleryActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModelFactory : GalleryViewModelFactory
+    lateinit var viewModelFactory: GalleryViewModelFactory
 
-    private lateinit var viewModel : GalleryViewModel
+    private lateinit var viewModel: GalleryViewModel
 
     private lateinit var viewPager: ViewPager
-    private lateinit var loadingView : View
-    private lateinit var errorView : TextView
+    private lateinit var loadingView: View
+    private lateinit var errorView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)

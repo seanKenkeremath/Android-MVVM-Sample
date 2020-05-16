@@ -81,9 +81,7 @@ dependencies {
 
     //Dagger
     implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     //Retrofit
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"

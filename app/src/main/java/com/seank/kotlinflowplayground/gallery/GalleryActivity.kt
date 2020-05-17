@@ -8,7 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.seank.kotlinflowplayground.R
-import dagger.android.AndroidInjection
+import com.seank.kotlinflowplayground.app
+import com.seank.kotlinflowplayground.gallery.di.GalleryModule
 import javax.inject.Inject
 
 class GalleryActivity : AppCompatActivity() {
@@ -23,8 +24,8 @@ class GalleryActivity : AppCompatActivity() {
     private lateinit var errorView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        app.appComponent.gallerySubcomponent(GalleryModule()).inject(this)
         setContentView(R.layout.activity_gallery)
         viewPager = findViewById(R.id.viewpager)
         loadingView = findViewById(R.id.loading)

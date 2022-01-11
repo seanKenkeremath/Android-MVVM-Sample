@@ -6,7 +6,7 @@ import com.seank.kotlinflowplayground.data.CardsRepository
 import javax.inject.Inject
 
 class GalleryViewModelFactory constructor(private val cardsRepository: CardsRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(GalleryViewModel::class.java)) {
             return GalleryViewModel(
                 cardsRepository

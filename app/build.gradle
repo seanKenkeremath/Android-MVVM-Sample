@@ -32,6 +32,7 @@ android {
 
     testOptions {
         animationsDisabled = true
+        unitTests.returnDefaultValues = true
     }
 
     flavorDimensions "environment"

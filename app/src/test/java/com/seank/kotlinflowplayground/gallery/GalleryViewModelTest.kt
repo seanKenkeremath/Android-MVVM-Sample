@@ -4,14 +4,14 @@ import CoroutineTestRule
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.seank.kotlinflowplayground.data.CardsRepository
 import com.seank.kotlinflowplayground.domain.Card
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations.openMocks
 
 class GalleryViewModelTest {
     @get:Rule
@@ -20,17 +20,19 @@ class GalleryViewModelTest {
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
 
-    @Mock
+    @MockK
     private lateinit var cardsRepository: CardsRepository
 
     private lateinit var viewModel: GalleryViewModel
 
     @Before
     fun setUp() {
-        openMocks(this)
-        `when`(cardsRepository.getCards()).thenReturn(flow {
+        MockKAnnotations.init(this, relaxUnitFun = true)
+        every {
+            cardsRepository.getCards()
+        } returns flow {
             emit(listOf(Card(name = "Test Card", imgUrl = "img_url")))
-        })
+        }
         viewModel = GalleryViewModel(cardsRepository)
     }
 

@@ -13,6 +13,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations.initMocks
+import org.mockito.MockitoAnnotations.openMocks
 
 class GalleryViewModelTest {
     @get:Rule
@@ -34,7 +35,7 @@ class GalleryViewModelTest {
 
     @Before
     fun setUp() {
-        initMocks(this)
+        openMocks(this)
         `when`(cardsRepository.getCards()).thenReturn(flow {
             emit(listOf(Card(name = "Test Card", imgUrl = "img_url")))
         })

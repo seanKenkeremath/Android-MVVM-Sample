@@ -2,17 +2,15 @@ package com.seank.kotlinflowplayground.gallery
 
 import CoroutineTestRule
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.seank.kotlinflowplayground.data.CardsRepository
 import com.seank.kotlinflowplayground.domain.Card
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations.initMocks
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations.openMocks
 
 class GalleryViewModelTest {
@@ -25,12 +23,6 @@ class GalleryViewModelTest {
     @Mock
     private lateinit var cardsRepository: CardsRepository
 
-    @Mock
-    private lateinit var cardsObserver: Observer<List<Card>>
-
-    @Mock
-    private lateinit var showContentObserver: Observer<Boolean>
-
     private lateinit var viewModel: GalleryViewModel
 
     @Before
@@ -40,22 +32,25 @@ class GalleryViewModelTest {
             emit(listOf(Card(name = "Test Card", imgUrl = "img_url")))
         })
         viewModel = GalleryViewModel(cardsRepository)
-        viewModel.cards.observeForever(cardsObserver)
-        viewModel.showContent.observeForever(showContentObserver)
     }
 
     @Test
-    fun `when fetchCard then loading set to false then true when content loads`() {
+    fun `cards load successfully`() {
         viewModel.fetchCard()
-        val showContentArgumentCaptor = argumentCaptor<Boolean>()
-        verify(showContentObserver, atLeastOnce()).onChanged(showContentArgumentCaptor.capture())
-        assert(showContentArgumentCaptor.allValues[0] == false)
-        assert(showContentArgumentCaptor.allValues[1] == true)
 
-        val cardsArgumentCaptor = argumentCaptor<List<Card>>()
-        verify(cardsObserver).onChanged(cardsArgumentCaptor.capture())
-        assert(cardsArgumentCaptor.allValues.size == 1)
-        assert(cardsArgumentCaptor.allValues[0].size == 1)
-        assert(cardsArgumentCaptor.lastValue[0] == Card(name = "Test Card", imgUrl = "img_url"))
+        assertEquals(false, viewModel.showLoading.value)
+        assertEquals(true, viewModel.showContent.value)
+        assertEquals("Test Card", viewModel.cards.value!![0].name)
+        assertEquals("img_url", viewModel.cards.value!![0].imgUrl)
+    }
+
+    @Test
+    fun `show loading true while cards load`() {
+        viewModel.fetchCard()
+
+        assertEquals(false, viewModel.showLoading.value)
+        assertEquals(true, viewModel.showContent.value)
+        assertEquals("Test Card", viewModel.cards.value!![0].name)
+        assertEquals("img_url", viewModel.cards.value!![0].imgUrl)
     }
 }

@@ -31,7 +31,7 @@ class GalleryViewModelTest {
         every {
             cardsRepository.getCards()
         } returns flow {
-            emit(listOf(Card(name = "Test Card", imgUrl = "img_url")))
+            emit(Result.success(listOf(Card(name = "Test Card", imgUrl = "img_url"))))
         }
         viewModel = GalleryViewModel(cardsRepository)
     }

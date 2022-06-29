@@ -41,7 +41,8 @@ class CardsRepositoryImplTest {
                     ApiCard("Test Card 2", "http://www.image.org")
                 )
             )
-            repository.getCards().collect { list ->
+            repository.getCards().collect { result ->
+                val list = result.getOrNull()!!
                 assert(list.size == 2)
                 assert(list[0] == Card(name = "Test Card", imgUrl = "http://www.image.com"))
                 assert(list[1] == Card(name = "Test Card 2", imgUrl = "http://www.image.org"))
@@ -60,7 +61,8 @@ class CardsRepositoryImplTest {
                 emptyList()
             )
 
-            repository.getCards().collect { list ->
+            repository.getCards().collect { result ->
+                val list = result.getOrNull()!!
                 assert(list.isEmpty())
             }
             coVerify(exactly = 1) {

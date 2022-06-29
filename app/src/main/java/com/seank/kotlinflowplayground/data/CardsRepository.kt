@@ -4,5 +4,5 @@ import com.seank.kotlinflowplayground.domain.Card
 import kotlinx.coroutines.flow.Flow
 
 interface CardsRepository {
-    fun getCards() : Flow<List<Card>>
+    fun getCards() : Flow<Result<List<Card>>>
 }

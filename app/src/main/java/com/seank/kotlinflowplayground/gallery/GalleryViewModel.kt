@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.seank.kotlinflowplayground.data.CardsRepository
 import com.seank.kotlinflowplayground.domain.Card
+import com.seank.kotlinflowplayground.domain.NetworkException
 import com.seank.kotlinflowplayground.util.test.idlingresource.BackgroundTaskIdlingResource
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -47,7 +48,13 @@ class GalleryViewModel(private val repository: CardsRepository) : ViewModel() {
                     } else {
                         _showContent.value = false
                         _showLoading.value = false
-                        _error.value = it.exceptionOrNull()?.message
+                        val exception = it.exceptionOrNull()
+                        if (exception is NetworkException) {
+                            //TODO: string res via interface
+                            _error.value = "Network Error"
+                        } else {
+                            _error.value = "Generic Error"
+                        }
                     }
                 }
         }

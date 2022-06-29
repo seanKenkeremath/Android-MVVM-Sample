@@ -4,6 +4,8 @@ import CoroutineTestRule
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.seank.kotlinflowplayground.data.CardsRepository
 import com.seank.kotlinflowplayground.domain.Card
+import com.seank.kotlinflowplayground.domain.GenericException
+import com.seank.kotlinflowplayground.domain.NetworkException
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -54,5 +56,33 @@ class GalleryViewModelTest {
         assertEquals(true, viewModel.showContent.value)
         assertEquals("Test Card", viewModel.cards.value!![0].name)
         assertEquals("img_url", viewModel.cards.value!![0].imgUrl)
+    }
+
+    @Test
+    fun `show network error when cards fail to load from network error`() {
+        every {
+            cardsRepository.getCards()
+        } returns flow {
+            emit(Result.failure(NetworkException()))
+        }
+
+        viewModel.fetchCard()
+        assertEquals(false, viewModel.showLoading.value)
+        assertEquals(false, viewModel.showContent.value)
+        assertEquals("Network Error", viewModel.error.value)
+    }
+
+    @Test
+    fun `show generic error when cards fail to load`() {
+        every {
+            cardsRepository.getCards()
+        } returns flow {
+            emit(Result.failure(GenericException("Error")))
+        }
+
+        viewModel.fetchCard()
+        assertEquals(false, viewModel.showLoading.value)
+        assertEquals(false, viewModel.showContent.value)
+        assertEquals("Generic Error", viewModel.error.value)
     }
 }

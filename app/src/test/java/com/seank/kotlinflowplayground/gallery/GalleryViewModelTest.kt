@@ -10,7 +10,11 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import junit.framework.Assert.assertEquals
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -49,9 +53,23 @@ class GalleryViewModelTest {
     }
 
     @Test
-    fun `show loading true while cards load`() {
+    fun `show loading true while cards load`() = runTest {
+        every {
+            cardsRepository.getCards()
+        } returns flow {
+            delay(1000L)
+            emit(Result.success(listOf(Card(name = "Test Card", imgUrl = "img_url"))))
+        }
         viewModel.fetchCard()
 
+        //Advance to middle of load
+        advanceTimeBy(500L)
+
+        assertEquals(true, viewModel.showLoading.value)
+        assertEquals(false, viewModel.showContent.value)
+
+        //Advance past end of load
+        advanceTimeBy(1000L)
         assertEquals(false, viewModel.showLoading.value)
         assertEquals(true, viewModel.showContent.value)
         assertEquals("Test Card", viewModel.cards.value!![0].name)

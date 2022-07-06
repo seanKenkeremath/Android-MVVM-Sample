@@ -12,6 +12,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import junit.framework.Assert.*
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -36,7 +37,7 @@ class CardsRepositoryImplTest {
 
     @Test
     fun `When getCards is called then domain models returned`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        runTest {
             coEvery {
                 cardsService.getCards(any())
             } returns ApiCardsResponse(
@@ -58,7 +59,7 @@ class CardsRepositoryImplTest {
 
     @Test
     fun `Given card service returns empty list, when getCards is called then empty array returned`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        runTest {
             coEvery {
                 cardsService.getCards(any())
             } returns ApiCardsResponse(
@@ -76,7 +77,7 @@ class CardsRepositoryImplTest {
 
     @Test
     fun `Given card service throws IOException, when getCards is called then failed Result is returned with network error`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        runTest {
             coEvery {
                 cardsService.getCards(any())
             } throws IOException()
@@ -94,7 +95,7 @@ class CardsRepositoryImplTest {
 
     @Test
     fun `Given card service throws non IOException, when getCards is called then failed Result is returned with generic error`() =
-        coroutinesTestRule.testDispatcher.runBlockingTest {
+        runTest {
             coEvery {
                 cardsService.getCards(any())
             } throws Exception()
